@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.FirebaseApp
+import com.google.firebase.database.FirebaseDatabase
 import com.ncorti.kotlin.template.app.databinding.ActivityLoginBinding
 
 
@@ -13,9 +15,13 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //instantiating firebase instance
+        FirebaseApp.initializeApp(this)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        
+        val database= FirebaseDatabase.getInstance()
+        val userNode = database.getReference("registeredUsers") //getting registeredUsers Node
         val usernameInputField = findViewById<TextInputLayout>(R.id.usernameInputLayout)
         val passwordInputField = findViewById<TextInputLayout>(R.id.passwordInputLayout)
 

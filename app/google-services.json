@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1014888338649",
+    "project_id": "viva-rituals",
+    "storage_bucket": "viva-rituals.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1014888338649:android:3d659ea1f8f25032d01ac8",
+        "android_client_info": {
+          "package_name": "com.ncorti.kotlin.template.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKTjcvYHgfV9ltCB474TO-9J4FYHV6KIo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
