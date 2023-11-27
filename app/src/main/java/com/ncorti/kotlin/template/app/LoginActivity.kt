@@ -12,6 +12,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.ncorti.kotlin.template.app.databinding.ActivityLoginBinding
+import com.ncorti.kotlin.template.app.userClass.HelperClass
 import com.ncorti.kotlin.template.app.userClass.User
 
 
@@ -39,19 +40,18 @@ class LoginActivity : AppCompatActivity() {
             usernameInputField.error = usernameError
             passwordInputField.error = passwordError
             //authentication
-            val authentication = FirebaseAuth.getInstance()
-            val database= FirebaseDatabase.getInstance()
-            val userNode = database.getReference("registeredUsers") //getting registeredUsers Node
+         
+            val userNode = HelperClass.getDatabaseInstance().getReference("registeredUsers") //getting registeredUsers Node
 
             try{
                 if (usernameError == null && passwordError == null) {
 
-                    authentication.signInWithEmailAndPassword(email, password).addOnCompleteListener{
+                    HelperClass.getAuthenticationInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener{
                             task ->
                         if(task.isSuccessful)
                         {
                             //sign in is successful
-                            val user = authentication.currentUser
+                            val user =  HelperClass.getAuthenticationInstance().currentUser
                             val uid = user?.uid //the uid, for example its User1 for this one (manually entered). Will have to use auto generated uids for  every signed up user
                             Log.d("UID", "UID for the user: $uid")
                             uid?.let { //we already got the UID so dont need to iterate over the collection with foreach in the database

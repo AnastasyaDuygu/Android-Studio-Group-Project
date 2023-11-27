@@ -2,9 +2,12 @@ package com.ncorti.kotlin.template.app
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputLayout
 import com.ncorti.kotlin.template.app.databinding.ActivitySignupBinding
+import com.ncorti.kotlin.template.app.userClass.HelperClass
+import com.ncorti.kotlin.template.app.userClass.User
 
 class SignupActivity : AppCompatActivity() {
 
@@ -43,17 +46,38 @@ class SignupActivity : AppCompatActivity() {
             passwordInputField.error = passwordErrorMessage
             reEnterPasswordField.error = reEnteredPasswordErrorMessage
 
+            val userNode = HelperClass.getDatabaseInstance().getReference("registeredUsers")
 
-            if (
-                nameErrorMessage == null
-                && usernameErrorMessage == null
-                && emailErrorMessage == null
-                && passwordErrorMessage == null
-                && reEnteredPasswordErrorMessage == null
-            ) {
-                val intent = Intent(this@SignupActivity, MainActivity::class.java)
-                startActivity(intent)
+            try {
+                if (
+                    nameErrorMessage == null
+                    && usernameErrorMessage == null
+                    && emailErrorMessage == null
+                    && passwordErrorMessage == null
+                    && reEnteredPasswordErrorMessage == null
+                ) {
+                    HelperClass.getAuthenticationInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val uid = HelperClass.getAuthenticationInstance().currentUser?.uid //new generated UID for the user
+                            if(uid!=null)
+                            {
+                                val newUser = User(email, name, password, username)
+                                userNode.child(uid).setValue(newUser) //creates a new JSON entry
+                                 val intent = Intent(this@SignupActivity, MainActivity::class.java) //send to main activity
+                                 startActivity(intent)
+                            }
+                        } else {
+                            Log.d("SIGN-UP", "Error: ${task.exception}")
+                        }
+                    }
+
+                }
+            }catch(e: Exception)
+            {
+                Log.e("EXCEPTION", "Sign-up failed", e)
+
             }
+
         }
     }
 }
