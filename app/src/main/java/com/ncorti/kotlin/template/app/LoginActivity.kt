@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
                                             val userData= snapshot.getValue(User::class.java) //converts firebase snapshot data and populate the instance of that class with it
                                             Log.d("USERDATA", "$userData")
                                             //now pass this created instance of the user to the next activity
-                                            val intent = Intent(this@LoginActivity, LifeStylesActivity::class.java)
+                                            val intent = Intent(this@LoginActivity, LifestylesActivity::class.java)
                                             intent.putExtra("UserData", userData)
                                             startActivity(intent)
 

@@ -1,25 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:padding="@dimen/doub_grid_size"
-    tools:context=".LifeStylesActivity">
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Display username at the top -->
 
     <TextView
-        android:id="@+id/text_result"
-        style="@style/TextAppearance.AppCompat.Display1"
+        android:id="@+id/username_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="40dp"
+        android:text="@string/username"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/lifestylesRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lifestylesRecyclerView"
+        android:layout_width="351dp"
+        android:layout_height="330dp"
+        android:layout_margin="16dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="109dp"
+        app:layout_constraintBottom_toTopOf="@+id/okButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username_text_view" />
+
+    <Button
+        android:id="@+id/okButton"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="75dp"
+        android:text="@string/ok"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:text="Lifestyles"
-        tools:visibility="visible" />
-
-
+        app:layout_constraintEnd_toEndOf="@+id/lifestylesRecyclerView"
+        app:layout_constraintStart_toStartOf="@+id/lifestylesRecyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/lifestylesRecyclerView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

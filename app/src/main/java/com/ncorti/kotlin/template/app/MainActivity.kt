@@ -2,11 +2,9 @@ package com.ncorti.kotlin.template.app
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.ncorti.kotlin.template.app.databinding.ActivityMainBinding
-import com.ncorti.kotlin.template.library.FactorialCalculator
-import com.ncorti.kotlin.template.library.android.ToastUtil
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,26 +15,23 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.buttonCompute.setOnClickListener {
-            val message = if (binding.editTextFactorial.text.isNotEmpty()) {
-                val input = binding.editTextFactorial.text.toString().toLong()
-                val result = try {
-                    FactorialCalculator.computeFactorial(input).toString()
-                } catch (ex: IllegalStateException) {
-                    "Error: ${ex.message}"
-                }
 
-                binding.textResult.text = result
-                binding.textResult.visibility = View.VISIBLE
-                getString(R.string.notification_title, result)
-            } else {
-                getString(R.string.please_enter_a_number)
-            }
-            ToastUtil.showToast(this, message)
+        // Set the username from a saved instance or Intent
+
+
+        // Assuming you have an array of icons and text for each button
+        val items = arrayOf("Set Goals", "Statistics", "Sharing", "Notes", "Reminders", "Progress Reports")
+        val adapter = GridItemAdapter(this, items)
+        binding.gridView.adapter = adapter
+
+        binding.gridView.setOnItemClickListener { parent, view, position, id ->
+            // Handle grid button clicks
+            // You can open dialogs or new activities based on the position
         }
 
-        binding.buttonAppcompose.setOnClickListener {
-            val intent = Intent(it.context, ComposeActivity::class.java)
+        binding.btnHabits.setOnClickListener {
+            // Navigate to the Habits Layout
+            //val intent = Intent(this, HabitsActivity::class.java)
             startActivity(intent)
         }
     }

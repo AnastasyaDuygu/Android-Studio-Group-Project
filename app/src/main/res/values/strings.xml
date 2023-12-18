@@ -16,4 +16,10 @@
     <string name="name">Name</string>
     <string name="email">Email</string>
     <string name="re_enter_password">Re-enter Password</string>
+    <string name="ok">OK</string>
+    <string name="lifestyle_item_name">Lifestyle item name</string>
+    <string name="habits">Habits</string>
+    <string name="lifestyle_item">Lifestyle Item</string>
+    <string name="todo">TODO</string>
+    <string name="item">Item</string>
 </resources>
