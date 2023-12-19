@@ -24,7 +24,7 @@
         android:layout_height="490dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_habits_to_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

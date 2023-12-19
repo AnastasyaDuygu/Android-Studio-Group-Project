@@ -1,7 +1,9 @@
 package com.example.habits
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.habits.adapter.ParentAdapter
@@ -22,6 +24,14 @@ class HabitsActivity : AppCompatActivity() {
         initRecycler()
         /*binding.btnAddCategory.setOnClickListener{
         }*/
+        /*var xActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            //Toast.makeText(this, "Working", Toast.LENGTH_SHORT).show()
+        }*/
+        binding.btnHabitsToMain.setOnClickListener{
+            /*val switchActivityIntent: Intent
+            switchActivityIntent = Intent(this, x_activity::class.java)
+            xActivityLauncher.launch(switchActivityIntent)*/
+        }
     }
 
     private fun initRecycler() {
