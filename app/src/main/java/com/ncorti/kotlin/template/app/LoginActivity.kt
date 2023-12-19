@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.habits.LifeStylesActivity
+import com.example.habits.HabitsActivity
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DataSnapshot
@@ -61,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
                                             val userData= snapshot.getValue(User::class.java) //converts firebase snapshot data and populate the instance of that class with it
                                             Log.d("USERDATA", "$userData")
                                             //now pass this created instance of the user to the next activity
-                                            val intent = Intent(this@LoginActivity, LifeStylesActivity::class.java)
+                                            val intent = Intent(this@LoginActivity, HabitsActivity::class.java)
                                             intent.putExtra("UserData", userData)
                                             startActivity(intent)
 
