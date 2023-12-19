@@ -4,12 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.habits.LifeStylesActivity
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.ncorti.kotlin.template.app.databinding.ActivityLoginBinding
 import com.ncorti.kotlin.template.app.userClass.HelperClass
