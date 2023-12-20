@@ -18,4 +18,8 @@
     <string name="re_enter_password">Re-enter Password</string>
     <string name="habits">Habits</string>
     <string name="back_to_main">Back to Main</string>
+    <string name="ok">OK</string>
+    <string name="todo">To do</string>
+    <string name="item">Item Name</string>
+    <string name="lifestyle_item">Life Style Item</string>
 </resources>
