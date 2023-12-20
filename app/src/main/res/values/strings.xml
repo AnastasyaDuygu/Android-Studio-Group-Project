@@ -16,4 +16,6 @@
     <string name="name">Name</string>
     <string name="email">Email</string>
     <string name="re_enter_password">Re-enter Password</string>
+    <string name="habits">Habits</string>
+    <string name="back_to_main">Back to Main</string>
 </resources>
