@@ -63,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
                                             //now pass this created instance of the user to the next activity
                                             val intent = Intent(this@LoginActivity, HabitsActivity::class.java)
                                             intent.putExtra("UserData", userData)
+                                            intent.putExtra("UID", uid)
                                             startActivity(intent)
 
                                         }else

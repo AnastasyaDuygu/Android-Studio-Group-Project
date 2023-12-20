@@ -3,6 +3,7 @@ package com.example.habits
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,11 +15,19 @@ import com.ncorti.kotlin.template.app.databinding.ActivityHabitsBinding
 class HabitsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHabitsBinding
     lateinit var recyclerView: RecyclerView
-
+    lateinit var uid: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHabitsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val mainIntent = intent
+        //we have the uid for the database
+        uid = intent.getStringExtra("UID")!!
+        Log.d("Habit UID: ", "$uid")
+
+
+
         HabitSys.prepareHabits()
         //CategoriesSys.prepareCategories()
         initRecycler()
@@ -39,7 +48,7 @@ class HabitsActivity : AppCompatActivity() {
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@HabitsActivity, RecyclerView.VERTICAL, false)
-            adapter = ParentAdapter(ParentDataFactory.getParents())
+            adapter = ParentAdapter(ParentDataFactory.getParents(), uid)
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.example.habits.adapter
 
 import android.app.Dialog
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +16,12 @@ import com.example.habits.model.Habit
 import com.example.habits.util.Constants
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.ncorti.kotlin.template.app.MainActivity
 import com.ncorti.kotlin.template.app.R
+import com.ncorti.kotlin.template.app.userClass.HelperClass
+import com.ncorti.kotlin.template.app.userClass.User
 
-class HabitAdapter(private val habits: List<Habit>, private val category_name: String)
+class HabitAdapter(private val habits: List<Habit>, private val category_name: String, private val UID: String)
     :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     lateinit var customDialog: Dialog
     lateinit var btnAdd: Button
@@ -68,6 +73,10 @@ class HabitAdapter(private val habits: List<Habit>, private val category_name: S
                 if (new_habit_name != ""){
                     habits[position].description = et_dialog_context.text.toString()
                     habits[position].name = new_habit_name
+                    //add to the database
+                    val userNode = HelperClass.getDatabaseInstance().getReference("habits")
+                    val newHabit = Habit(inp_new_habit_name.text.toString(), et_dialog_context.text.toString(), this.category_name)
+                    userNode.child(UID).setValue(newHabit) //creates a new JSON entry
                     Snackbar.make(holder.itemView, "New Habit Added!", Snackbar.LENGTH_LONG).show()
                     customDialog!!.dismiss()
                 }else{

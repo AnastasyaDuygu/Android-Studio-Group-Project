@@ -11,7 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.ncorti.kotlin.template.app.R
 
 
-class ParentAdapter(private val parents: List<Parent>)
+class ParentAdapter(private val parents: List<Parent>, private val uid: String)
     :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     private val viewPool = RecyclerView.RecycledViewPool()
@@ -34,7 +34,7 @@ class ParentAdapter(private val parents: List<Parent>)
         holder.tv_category_name.text = parent.categoryTitle
         holder.rv_habit_items.apply {
             layoutManager = LinearLayoutManager(holder.itemView.context, RecyclerView.HORIZONTAL, false)
-            adapter = HabitAdapter(parent.items, parent.categoryTitle)
+            adapter = HabitAdapter(parent.items, parent.categoryTitle, uid )
         }
 
         holder.itemView.setOnClickListener{
