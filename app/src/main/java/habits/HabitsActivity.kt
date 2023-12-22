@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.habits.adapter.ParentAdapter
 import com.example.habits.adapter.db.HabitSys
 import com.example.habits.model.ParentDataFactory
+import com.ncorti.kotlin.template.app.MainActivity
 import com.ncorti.kotlin.template.app.databinding.ActivityHabitsBinding
 
 class HabitsActivity : AppCompatActivity() {
@@ -37,9 +38,9 @@ class HabitsActivity : AppCompatActivity() {
             //Toast.makeText(this, "Working", Toast.LENGTH_SHORT).show()
         }*/
         binding.btnHabitsToMain.setOnClickListener{
-            /*val switchActivityIntent: Intent
-            switchActivityIntent = Intent(this, x_activity::class.java)
-            xActivityLauncher.launch(switchActivityIntent)*/
+            val switchActivityIntent: Intent
+            switchActivityIntent = Intent(this, MainActivity::class.java)
+            startActivity(switchActivityIntent)
         }
     }
 

@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 
 
-class GridItemAdapter(private val context: Context, private val items: Array<String>) : BaseAdapter() {
+class GridItemAdapter(private val context: Context, private val items: Array<GridItem>) : BaseAdapter() {
 
     data class GridItem(val text: String, val iconResId: Int)
 
@@ -32,7 +32,7 @@ class GridItemAdapter(private val context: Context, private val items: Array<Str
             viewHolder = view.tag as ViewHolder
         }
 
-        val gridItem = getItem(position) as GridItem
+        val gridItem: GridItem = getItem(position) as GridItem
         viewHolder.textView.text = gridItem.text
         viewHolder.imageView.setImageResource(gridItem.iconResId)
         return view

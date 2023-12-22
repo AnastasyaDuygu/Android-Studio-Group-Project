@@ -22,4 +22,5 @@
     <string name="todo">To do</string>
     <string name="item">Item Name</string>
     <string name="lifestyle_item">Life Style Item</string>
+    <string name="go_to_habits">Go To Habits</string>
 </resources>
