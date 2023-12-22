@@ -29,7 +29,7 @@ object ParentDataFactory {
         val habits : List<List<Habit>> = addHabits()
         var category: ArrayList<Parent>
         category = ArrayList()
-        for (i in 0..categories.size-1){
+        for (i in 0..<categories.size){
             category!!.add(Parent(addCategory(), habits[i]))
             parents.add(category[i])
         }

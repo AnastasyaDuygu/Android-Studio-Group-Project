@@ -29,7 +29,7 @@ class HabitsActivity : AppCompatActivity() {
 
 
 
-        HabitSys.prepareHabits()
+        HabitSys.prepareHabits(uid)
         //CategoriesSys.prepareCategories()
         initRecycler()
         /*binding.btnAddCategory.setOnClickListener{
