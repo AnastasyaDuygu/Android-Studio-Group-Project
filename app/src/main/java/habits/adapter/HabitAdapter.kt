@@ -76,7 +76,10 @@ class HabitAdapter(private val habits: List<Habit>, private val category_name: S
                     //add to the database
                     val userNode = HelperClass.getDatabaseInstance().getReference("habits")
                     val newHabit = Habit(inp_new_habit_name.text.toString(), et_dialog_context.text.toString(), this.category_name)
-                    userNode.child(UID).setValue(newHabit) //creates a new JSON entry
+                    // Use push() to generate a unique key for the new habit (a list)
+                    val newHabitRef = userNode.push()
+                    newHabitRef.setValue(newHabit)
+
                     Snackbar.make(holder.itemView, "New Habit Added!", Snackbar.LENGTH_LONG).show()
                     customDialog!!.dismiss()
                 }else{

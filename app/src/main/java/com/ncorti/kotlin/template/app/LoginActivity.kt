@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.habits.HabitsActivity
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DataSnapshot

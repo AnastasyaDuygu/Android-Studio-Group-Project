@@ -1,10 +1,10 @@
 package com.example.habits.model
 
 
-import com.example.habits.adapter.db.CategoriesSys
-import com.example.habits.adapter.db.HabitSys
+import HabitSys.Companion.prepareHabits
 
 object ParentDataFactory {
+    private val maxSize= 100
     //lateinit var categories: ArrayList<String>
     var categories = arrayListOf("Health and Wellness", "Productivity and Time Management",
         "Mindfulness and Mental Health","Learning and Growth",
@@ -19,18 +19,16 @@ object ParentDataFactory {
         return categories[i]
     }
 
-    private fun addHabits(): List<List<Habit>>{
-        return HabitDataFactory.getHabit()
-    }
-
-    fun getParents() : List<Parent> {
+    suspend fun getParents(uid: String): List<Parent> {
         //categories = CategoriesSys.categories
+        val emptyList: List<Habit> = List(maxSize) { Habit() }
         val parents = mutableListOf<Parent>()
-        val habits : List<List<Habit>> = addHabits()
+        val habits : List<List<Habit>> = prepareHabits(uid)
+        println("Habits: $habits")
         var category: ArrayList<Parent>
         category = ArrayList()
-        for (i in 0..<categories.size){
-            category!!.add(Parent(addCategory(), habits[i]))
+        for (i in 0..categories.size-1){
+            category!!.add(Parent(addCategory(), emptyList))
             parents.add(category[i])
         }
         /*val category0 = Parent(addCategory(), habits[0])
@@ -76,3 +74,4 @@ object ParentDataFactory {
 
     }*/
 }
+
