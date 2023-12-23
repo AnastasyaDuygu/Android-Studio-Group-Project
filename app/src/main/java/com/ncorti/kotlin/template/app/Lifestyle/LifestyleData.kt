@@ -6,7 +6,7 @@ class LifestyleData {
         // Static list of lifestyles
         private val lifestyles = arrayListOf(
             Lifestyle(1, "Active", "Engage in physical activities daily."),
-            Lifestyle(2, "Mindful", "Practice mindfulness and meditation."),
+            Lifestyle(2, "Homebody", "Stay Home, work on your mental health and meditate."),
             Lifestyle(3, "Social", "Prioritize social interactions.")
             // Add more lifestyles as needed
         )
@@ -16,6 +16,6 @@ class LifestyleData {
             return lifestyles
         }
 
-        // Add or remove other functions to manipulate the list as needed
+
     }
 }
