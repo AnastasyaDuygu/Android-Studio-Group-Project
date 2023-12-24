@@ -1,7 +1,6 @@
 package com.example.habits.adapter
 
 import android.app.Dialog
-import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,13 +12,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.habits.model.Habit
-import com.example.habits.util.Constants
+import com.ncorti.kotlin.template.app.userClass.Constants
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import com.ncorti.kotlin.template.app.MainActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.ncorti.kotlin.template.app.R
 import com.ncorti.kotlin.template.app.userClass.HelperClass
-import com.ncorti.kotlin.template.app.userClass.User
 
 class HabitAdapter(private val habits: List<Habit>, private val category_name: String, private val UID: String)
     :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
@@ -75,9 +75,42 @@ class HabitAdapter(private val habits: List<Habit>, private val category_name: S
                     habits[position].name = new_habit_name
                     //add to the database
                     val userNode = HelperClass.getDatabaseInstance().getReference("habits")
+                    val childNode = userNode.child(Constants.UID)
                     val newHabit = Habit(inp_new_habit_name.text.toString(), et_dialog_context.text.toString(), this.category_name)
                     // Use push() to generate a unique key for the new habit (a list)
                     val newHabitRef = userNode.push()
+                    userNode.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (!snapshot.exists()) {
+                                // Child node doesn't exist, create it
+                                userNode.child(Constants.UID).setValue(true)
+                                Log.d("NodeCreation", "Child node created for UID: ${Constants.UID}")
+                            } else {
+                                Log.d("NodeCreation", "Child node already exists for UID: ${Constants.UID}")
+
+                                // Child node exists, proceed to add a new habit
+                                val newHabit = Habit(inp_new_habit_name.text.toString(), et_dialog_context.text.toString(), this@HabitAdapter.category_name)
+                                // Use push() to generate a unique key for the new habit (a list)
+                                val newHabitRef = childNode.push()
+                                val uniqueKey = newHabitRef.key
+
+                                // Print the unique key
+                                Log.d("Unique Key", uniqueKey ?: "Key is null")
+
+                                // Add the new habit to the UID node
+                                newHabitRef.setValue(newHabit)
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            Log.e("NodeCreation", "Error checking UID node existence: ${error.message}")
+                        }
+                    })
+
+                    val uniqueKey = newHabitRef.key
+
+                    // Print the unique key
+                    Log.d("Unique Key", uniqueKey ?: "Key is null")
                     newHabitRef.setValue(newHabit)
 
                     Snackbar.make(holder.itemView, "New Habit Added!", Snackbar.LENGTH_LONG).show()
