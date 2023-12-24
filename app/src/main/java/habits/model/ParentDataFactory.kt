@@ -2,9 +2,11 @@ package com.example.habits.model
 
 
 import HabitSys.Companion.prepareHabits
+import android.util.Log
+import kotlin.math.log
 
 object ParentDataFactory {
-    private val maxSize= 100
+    val maxSize: Int = 10
     //lateinit var categories: ArrayList<String>
     var categories = arrayListOf("Health and Wellness", "Productivity and Time Management",
         "Mindfulness and Mental Health","Learning and Growth",
@@ -17,6 +19,7 @@ object ParentDataFactory {
         if (i > categories.size-1)
             return "null"
         return categories[i]
+
     }
 
     suspend fun getParents(uid: String): List<Parent> {
@@ -27,7 +30,7 @@ object ParentDataFactory {
         println("Habits: $habits")
         var category: ArrayList<Parent>
         category = ArrayList()
-        for (i in 0..categories.size-1){
+        for (i in 0..<categories.size){
             category!!.add(Parent(addCategory(), emptyList))
             parents.add(category[i])
         }
@@ -35,6 +38,7 @@ object ParentDataFactory {
         parents.add(category0)
         val category1 = Parent(addCategory(), habits[1])
         parents.add(category1)*/
+        i=-1
         return parents
     }
     //I LOST MY MIND TRYING TO MAKE THIS WORK BUT IT DOESNT WANT TO :(

@@ -29,19 +29,22 @@ class HabitSys {
                         habitList.add(it)
                     }
                 }
-
                 // Now habitList is an ArrayList<Habit> containing all habits for the UID
+                val updatedHabits = listOf(habitList)
                 habitsMutex.withLock {
-                    _habits.postValue(listOf(habitList))
-                    Log.d("_HABITS", _habits.value.toString())
+                    if (_habits.value != listOf(habitList)) {
+                        _habits.postValue(updatedHabits)
+                    }
+                    Log.d("_HABITS", updatedHabits.toString())
                 }
 
                 // Return the list directly
-                return _habits.value.orEmpty()
+                return updatedHabits
             }
 
             // Return empty list if no data
             return emptyList()
         }
+
     }
 }

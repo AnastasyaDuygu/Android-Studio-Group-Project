@@ -8,32 +8,25 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.habits.HabitsActivity
 import com.ncorti.kotlin.template.app.databinding.ActivityMainBinding
+import com.ncorti.kotlin.template.app.userClass.Constants
 import com.ncorti.kotlin.template.app.userClass.User
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    lateinit var uid: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        // Set the username from a saved instance or Intent
-        val mainIntent = intent
-        //we have the uid for the database
-        uid = intent.getStringExtra("UID")!!
-        Log.d("Habit UID: ", "$uid")
-        val userData = intent.getSerializableExtra("UserData") as User
-        Log.d("User Data", userData.toString())
-        binding.tvUsernameMain.text=userData.name
+        binding.tvUsernameMain.text=Constants.USERDATA.name
 
         // Assuming you have an array of icons and text for each button
-        val items = arrayOf(GridItemAdapter.GridItem("Goals", R.drawable.icon), GridItemAdapter.GridItem("Statistics", R.drawable.icon),
-            GridItemAdapter.GridItem("Sharing", R.drawable.icon), GridItemAdapter.GridItem("Notes", R.drawable.icon),
-            GridItemAdapter.GridItem("Reminders", R.drawable.icon), GridItemAdapter.GridItem("Progress Reports", R.drawable.icon))
+        val items = arrayOf(GridItemAdapter.GridItem("Goals", R.drawable.goals_icon), GridItemAdapter.GridItem("Statistics", R.drawable.statistics_icon),
+            GridItemAdapter.GridItem("Sharing", R.drawable.sharing_icon), GridItemAdapter.GridItem("Notes", R.drawable.notes_icon),
+            GridItemAdapter.GridItem("Reminders", R.drawable.reminders_icon), GridItemAdapter.GridItem("Progress Reports", R.drawable.report_icon))
         val adapter = GridItemAdapter(this, items)
         binding.gridView.adapter = adapter
 
@@ -59,8 +52,6 @@ class MainActivity : AppCompatActivity() {
         binding.btnHabits.setOnClickListener {
             // Navigate to the Habits Layout
             val intent = Intent(this, HabitsActivity::class.java)
-            intent.putExtra("UID", uid)
-            intent.putExtra("UserData",userData)
             startActivity(intent)
         }
     }

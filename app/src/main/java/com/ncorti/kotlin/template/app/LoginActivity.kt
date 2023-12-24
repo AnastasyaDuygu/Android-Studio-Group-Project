@@ -10,6 +10,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.ncorti.kotlin.template.app.databinding.ActivityLoginBinding
+import com.ncorti.kotlin.template.app.userClass.Constants
 import com.ncorti.kotlin.template.app.userClass.HelperClass
 import com.ncorti.kotlin.template.app.userClass.User
 
@@ -60,9 +61,9 @@ class LoginActivity : AppCompatActivity() {
                                             val userData= snapshot.getValue(User::class.java) //converts firebase snapshot data and populate the instance of that class with it
                                             Log.d("USERDATA", "$userData")
                                             //now pass this created instance of the user to the next activity
-                                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                                            intent.putExtra("UserData", userData)
-                                            intent.putExtra("UID", uid)
+                                            val intent = Intent(this@LoginActivity, LifestylesActivity::class.java)
+                                            Constants.UID=uid
+                                            Constants.USERDATA= userData!!
                                             startActivity(intent)
 
                                         }else
