@@ -1,5 +1,6 @@
 package com.example.habits
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -23,6 +24,7 @@ class HabitsActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
     private lateinit var parentAdapter: ParentAdapter
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHabitsBinding.inflate(layoutInflater)
@@ -30,9 +32,6 @@ class HabitsActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                // Step 1: Load habits data
-                val habits = HabitSys.prepareHabits(Constants.UID)
-
                 // Step 2: Observe changes in habits LiveData
                 HabitSys.habits.observe(this@HabitsActivity, Observer { updatedHabits ->
                     // Step 3: Trigger logic that depends on the loaded data
@@ -40,7 +39,10 @@ class HabitsActivity : AppCompatActivity() {
                     // Call the logic that uses the habits data here, like initializing the recycler view
                     lifecycleScope.launch {
                         initRecycler()
+                        parentAdapter.notifyDataSetChanged()
+                        Log.d("HERE2", "HERE2",)
                     }
+
                 })
 
             } catch (e: Exception) {
@@ -66,7 +68,7 @@ class HabitsActivity : AppCompatActivity() {
         }
 
         recyclerView = binding.rvParent
-        parentAdapter = ParentAdapter(parents, Constants.UID)
+        parentAdapter = ParentAdapter(parents, lifecycleScope)
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@HabitsActivity, RecyclerView.VERTICAL, false)
             adapter = parentAdapter

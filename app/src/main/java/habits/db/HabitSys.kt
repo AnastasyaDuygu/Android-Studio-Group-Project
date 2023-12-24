@@ -3,49 +3,44 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.habits.model.Habit
 import com.ncorti.kotlin.template.app.userClass.HelperClass
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class HabitSys {
     companion object {
         private val _habits = MutableLiveData<MutableList<Habit>>()
         val habits: LiveData<MutableList<Habit>> = _habits
-        val habitsMutex = Mutex()
 
         suspend fun prepareHabits(uid: String): MutableList<Habit> {
-            val userNode = HelperClass.getDatabaseInstance().getReference("habits").child(uid)
-            val habitSnapshot = userNode.get().await()
-            Log.d("DATA", "UID: $uid, Snapshot: $habitSnapshot")
+            return withContext(Dispatchers.IO) {
+                val userNode = HelperClass.getDatabaseInstance().getReference("habits").child(uid)
+                val habitSnapshot = userNode.get().await()
+                Log.d("DATA1", "UID: $uid, Snapshot: $habitSnapshot")
 
-            if (habitSnapshot.exists()) {
                 val habitList = mutableListOf<Habit>()
 
-                for (habitDataSnapshot in habitSnapshot.children) {
-                    val habit = habitDataSnapshot.getValue(Habit::class.java)
-                    Log.d("DATA", "UID: $uid, Snapshot: $habitDataSnapshot, habit: $habit")
+                if (habitSnapshot.exists()) {
+                    for (habitDataSnapshot in habitSnapshot.children) {
+                        val habit = habitDataSnapshot.getValue(Habit::class.java)
+                        Log.d("DATA2", "UID: $uid, Snapshot: $habitDataSnapshot, habit: $habit")
 
-                    habit?.let {
-                        habitList.add(it)
+                        habit?.let {
+                            habitList.add(it)
+                        }
                     }
                 }
-                // Now habitList is an ArrayList<Habit> containing all habits for the UID
-                val updatedHabits = habitList
-                habitsMutex.withLock {
-                    if (_habits.value != habitList) {
-                        _habits.postValue(updatedHabits)
-                    }
-                    Log.d("_HABITS", updatedHabits.toString())
+
+                // Check if the new habitList is different from the current value before posting
+                if (_habits.value != habitList) {
+                    // Use postValue to update LiveData on the main thread
+                    _habits.postValue(habitList)
+                    Log.d("_HABITS", habitList.toString())
                 }
 
                 // Return the list directly
-                return updatedHabits
+                return@withContext habitList
             }
-
-            // Return empty list if no data
-            return mutableListOf()
         }
-
     }
 }
-

@@ -1,5 +1,7 @@
 package com.example.habits.adapter
 
+import HabitSys
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.Color
 import android.util.Log
@@ -9,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -21,8 +24,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.ncorti.kotlin.template.app.R
 import com.ncorti.kotlin.template.app.userClass.HelperClass
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
-class HabitAdapter(private val habits: List<Habit>, private val category_name: String, private val UID: String)
+class HabitAdapter(private val habits: MutableList<Habit>, private val category_name: String, private val coroutineScope: CoroutineScope
+)
     :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     lateinit var customDialog: Dialog
     lateinit var btnAdd: Button
@@ -49,7 +55,6 @@ class HabitAdapter(private val habits: List<Habit>, private val category_name: S
             FullRecyclerViewItemHolder(itemView)
         }
     }
-
     override fun getItemCount(): Int {
         return habits.size
     }
@@ -78,9 +83,7 @@ class HabitAdapter(private val habits: List<Habit>, private val category_name: S
                     //add to the database
                     val userNode = HelperClass.getDatabaseInstance().getReference("habits")
                     val childNode = userNode.child(Constants.UID)
-                    val newHabit = Habit(inp_new_habit_name.text.toString(), et_dialog_context.text.toString(), this.category_name)
-                    // Use push() to generate a unique key for the new habit (a list)
-                    val newHabitRef = userNode.push()
+
                     userNode.addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
                             if (!snapshot.exists()) {
@@ -90,17 +93,19 @@ class HabitAdapter(private val habits: List<Habit>, private val category_name: S
                             } else {
                                 Log.d("NodeCreation", "Child node already exists for UID: ${Constants.UID}")
 
-                                // Child node exists, proceed to add a new habit
-                                val newHabit = Habit(inp_new_habit_name.text.toString(), et_dialog_context.text.toString(), this@HabitAdapter.category_name)
                                 // Use push() to generate a unique key for the new habit (a list)
                                 val newHabitRef = childNode.push()
                                 val uniqueKey = newHabitRef.key
-
+                                // Child node exists, proceed to add a new habit
+                                val newHabit = Habit(inp_new_habit_name.text.toString(), et_dialog_context.text.toString(), this@HabitAdapter.category_name, uniqueKey!!)
                                 // Print the unique key
                                 Log.d("Unique Key", uniqueKey ?: "Key is null")
-
                                 // Add the new habit to the UID node
                                 newHabitRef.setValue(newHabit)
+
+                                coroutineScope.launch {
+                                    HabitSys.prepareHabits(Constants.UID)
+                                }
                             }
                         }
 
@@ -108,13 +113,6 @@ class HabitAdapter(private val habits: List<Habit>, private val category_name: S
                             Log.e("NodeCreation", "Error checking UID node existence: ${error.message}")
                         }
                     })
-
-                    val uniqueKey = newHabitRef.key
-
-                    // Print the unique key
-                    Log.d("Unique Key", uniqueKey ?: "Key is null")
-                    newHabitRef.setValue(newHabit)
-
                     Snackbar.make(holder.itemView, "New Habit Added!", Snackbar.LENGTH_LONG).show()
                     customDialog!!.dismiss()
                 }else{
@@ -142,8 +140,21 @@ class HabitAdapter(private val habits: List<Habit>, private val category_name: S
             btnDelete = customDialog!!.findViewById<Button>(R.id.btnDelete)
             btnDelete.setOnClickListener(View.OnClickListener { //customDialog.hide();
                 Snackbar.make(holder.itemView, "You deleted the habit!", Snackbar.LENGTH_LONG).show()
-                habits[position].name = ""
-                habits[position].description = ""
+                //delete that habit from the DB
+                val habitToDelete= habits[position]
+                Log.d("DELETE:", "$habitToDelete")
+                val parentId= habitToDelete.parentId
+                val userNode = HelperClass.getDatabaseInstance().getReference("habits")
+                val childNode = userNode.child(Constants.UID)
+                val habit = childNode.child(parentId)
+                if(habit!=null)
+                {
+                    habit.removeValue()
+                    coroutineScope.launch {
+                            HabitSys.prepareHabits(Constants.UID)
+                    }
+                }
+
                 customDialog!!.dismiss()
             })
         }

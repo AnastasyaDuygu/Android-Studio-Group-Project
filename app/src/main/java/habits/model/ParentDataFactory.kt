@@ -22,7 +22,7 @@ object ParentDataFactory {
 
     }
 
-    suspend fun getParents(uid: String): List<Parent> {
+    suspend fun getParents(uid: String): MutableList<Parent> {
         //categories = CategoriesSys.categories
         var initialList: MutableList<Habit> = MutableList(maxSize) { Habit() }
         val parents = mutableListOf<Parent>()

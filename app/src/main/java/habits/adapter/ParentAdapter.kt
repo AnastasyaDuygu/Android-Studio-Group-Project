@@ -8,9 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.habits.model.Parent
 import com.google.android.material.snackbar.Snackbar
 import com.ncorti.kotlin.template.app.R
+import kotlinx.coroutines.CoroutineScope
 
 
-class ParentAdapter(private val parents: List<Parent>, private val uid: String)
+class ParentAdapter(private val parents: MutableList<Parent>, private val coroutineScope: CoroutineScope)
     :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     private val viewPool = RecyclerView.RecycledViewPool()
@@ -33,7 +34,7 @@ class ParentAdapter(private val parents: List<Parent>, private val uid: String)
         holder.tv_category_name.text = parent.categoryTitle
         holder.rv_habit_items.apply {
             layoutManager = LinearLayoutManager(holder.itemView.context, RecyclerView.HORIZONTAL, false)
-            adapter = HabitAdapter(parent.items, parent.categoryTitle, uid )
+            adapter = HabitAdapter(parent.items, parent.categoryTitle, coroutineScope)
         }
 
         holder.itemView.setOnClickListener{
