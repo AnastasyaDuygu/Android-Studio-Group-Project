@@ -24,58 +24,31 @@ object ParentDataFactory {
 
     suspend fun getParents(uid: String): List<Parent> {
         //categories = CategoriesSys.categories
-        val emptyList: List<Habit> = List(maxSize) { Habit() }
+        var initialList: MutableList<Habit> = MutableList(maxSize) { Habit() }
         val parents = mutableListOf<Parent>()
-        val habits : List<List<Habit>> = prepareHabits(uid)
+        val habits : MutableList<Habit> = prepareHabits(uid)
         println("Habits: $habits")
-        var category: ArrayList<Parent>
-        category = ArrayList()
+        var category: ArrayList<Parent> = ArrayList()
         for (i in 0..<categories.size){
-            category!!.add(Parent(addCategory(), emptyList))
+            val tempList: ArrayList<Habit> = ArrayList()
+            val cat= addCategory()
+            for(j in 0 ..<habits.size)
+            {
+                val value=habits[j].categoryTitle
+                if(cat==value)
+                {
+                    tempList.add(habits[j])
+                    println("TempList: $tempList")
+                }
+            }
+            initialList= (tempList + initialList).take(maxSize).toMutableList()
+            category!!.add(Parent(cat, initialList))
             parents.add(category[i])
+            initialList = MutableList(maxSize) { Habit() }
         }
-        /*val category0 = Parent(addCategory(), habits[0])
-        parents.add(category0)
-        val category1 = Parent(addCategory(), habits[1])
-        parents.add(category1)*/
         i=-1
         return parents
     }
-    //I LOST MY MIND TRYING TO MAKE THIS WORK BUT IT DOESNT WANT TO :(
-    /*fun addNewCategory(name: String) : List<Parent>{
-        for (x in 0..7){
-            HabitSys.habits.add(arrayListOf(Habit("Habit 1"),Habit("Habit 2"),Habit("Habit 3") ))
-        }
 
-        categoriesPrepareData()
-        categories.add(name)
-
-        val parents = mutableListOf<Parent>()
-        val habits : List<List<Habit>> = addHabits()
-        var category: ArrayList<Parent>
-        category = ArrayList()
-        for (i in 0..categories.size-1){
-            category!!.add(Parent(addCategory(), habits[i]))
-            parents.add(category[i])
-        }
-        /*val parents = mutableListOf<Parent>()
-        val habits : List<List<Habit>> = addHabits()
-        i++
-        val category1 = Parent(name, habits[i])
-        parents.add(category1)*/
-        return parents
-    }
-
-    fun categoriesPrepareData(){
-        categories.add( "Health and Wellness")
-        categories.add("Productivity and Time Management")
-        categories.add("Mindfulness and Mental Health")
-        categories.add("Learning and Growth")
-        categories.add("Relationships")
-        categories.add("Creativity and Hobbies")
-        categories.add("Self-Care")
-        categories.add("Professional Development")
-
-    }*/
 }
 

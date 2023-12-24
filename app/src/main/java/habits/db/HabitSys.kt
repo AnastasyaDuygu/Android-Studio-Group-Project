@@ -9,11 +9,11 @@ import kotlinx.coroutines.tasks.await
 
 class HabitSys {
     companion object {
-        private val _habits = MutableLiveData<List<List<Habit>>>()
-        val habits: LiveData<List<List<Habit>>> = _habits
+        private val _habits = MutableLiveData<MutableList<Habit>>()
+        val habits: LiveData<MutableList<Habit>> = _habits
         val habitsMutex = Mutex()
 
-        suspend fun prepareHabits(uid: String): List<List<Habit>> {
+        suspend fun prepareHabits(uid: String): MutableList<Habit> {
             val userNode = HelperClass.getDatabaseInstance().getReference("habits").child(uid)
             val habitSnapshot = userNode.get().await()
             Log.d("DATA", "UID: $uid, Snapshot: $habitSnapshot")
@@ -30,9 +30,9 @@ class HabitSys {
                     }
                 }
                 // Now habitList is an ArrayList<Habit> containing all habits for the UID
-                val updatedHabits = listOf(habitList)
+                val updatedHabits = habitList
                 habitsMutex.withLock {
-                    if (_habits.value != listOf(habitList)) {
+                    if (_habits.value != habitList) {
                         _habits.postValue(updatedHabits)
                     }
                     Log.d("_HABITS", updatedHabits.toString())
@@ -43,8 +43,9 @@ class HabitSys {
             }
 
             // Return empty list if no data
-            return emptyList()
+            return mutableListOf()
         }
 
     }
 }
+

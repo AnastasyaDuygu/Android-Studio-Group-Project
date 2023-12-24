@@ -48,12 +48,6 @@ class HabitsActivity : AppCompatActivity() {
             }
         }
 
-        //CategoriesSys.prepareCategories()
-        /*binding.btnAddCategory.setOnClickListener{
-        }*/
-        /*var xActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            //Toast.makeText(this, "Working", Toast.LENGTH_SHORT).show()
-        }*/
         binding.btnHabitsToMain.setOnClickListener{
             val switchActivityIntent: Intent
             switchActivityIntent = Intent(this, MainActivity::class.java)

@@ -1,6 +1,7 @@
 package com.example.habits.adapter
 
 import android.app.Dialog
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -70,6 +71,7 @@ class HabitAdapter(private val habits: List<Habit>, private val category_name: S
             btnCancel = customDialog!!.findViewById<Button>(R.id.btnCancel)
             btnAdd.setOnClickListener(View.OnClickListener {
                 new_habit_name = inp_new_habit_name.getText().toString()
+
                 if (new_habit_name != ""){
                     habits[position].description = et_dialog_context.text.toString()
                     habits[position].name = new_habit_name
