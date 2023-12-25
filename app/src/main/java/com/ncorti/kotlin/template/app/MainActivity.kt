@@ -1,9 +1,13 @@
 package com.ncorti.kotlin.template.app
 
+import android.annotation.SuppressLint //For Gesture
 import android.content.Intent
 import android.os.Bundle
 import android.service.autofill.UserData
 import android.util.Log
+import android.view.GestureDetector
+import android.view.MotionEvent
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.habits.HabitsActivity
@@ -13,15 +17,33 @@ import com.ncorti.kotlin.template.app.userClass.User
 
 
 class MainActivity : AppCompatActivity() {
+    //Gesture STEP 1
+    val TAG:String="GESTURE"
+    lateinit var gestureDetector: GestureDetector
 
     private lateinit var binding: ActivityMainBinding
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.tvUsernameMain.text=Constants.USERDATA.name
+        //Gesture STEP 2
+        gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onLongPress(e: MotionEvent) {
+                super.onLongPress(e)
+                Log.i(TAG, "onLongPress")
+                displayUserDetails()
+                Toast.makeText(this@MainActivity, "deneme", Toast.LENGTH_SHORT).show()
+            }
+        })
+        //Gesture STEP 3
+        binding.tvUsernameMain.setOnTouchListener { v, event ->
+            gestureDetector.onTouchEvent(event)
+            false
+        }
 
         // Assuming you have an array of icons and text for each button
         val items = arrayOf(GridItemAdapter.GridItem("Goals", R.drawable.goals_icon), GridItemAdapter.GridItem("Statistics", R.drawable.statistics_icon),
@@ -29,6 +51,7 @@ class MainActivity : AppCompatActivity() {
             GridItemAdapter.GridItem("Reminders", R.drawable.reminders_icon), GridItemAdapter.GridItem("Progress Reports", R.drawable.report_icon))
         val adapter = GridItemAdapter(this, items)
         binding.gridView.adapter = adapter
+
 
         binding.gridView.setOnItemClickListener { _, _, position, _ ->
             val dialog = AlertDialog.Builder(this)
@@ -55,4 +78,21 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+    //Gesture STEP 4
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        gestureDetector.onTouchEvent(event)
+        return super.onTouchEvent(event)
+    }
+    //Gesture STEP 5
+    fun displayUserDetails(){
+        val dialog = AlertDialog.Builder(this)
+        val message = "Profile Details\n" +
+                "Name: ${Constants.USERDATA.name}" +
+                "\nUsername: ${Constants.USERDATA.username}" +
+                "\nE-mail: ${Constants.USERDATA.email}"
+        dialog.setMessage(message)
+        dialog.setPositiveButton("OK") { dialogInterface, _ -> dialogInterface.dismiss() }
+        dialog.show()
+    }
+
 }
