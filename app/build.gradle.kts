@@ -78,5 +78,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
+    val worker_version="2.7.1"
+    implementation (libs.work.runtime)
 
 }
