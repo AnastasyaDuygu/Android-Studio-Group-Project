@@ -2,6 +2,7 @@ package com.ncorti.kotlin.template.app
 
 import android.content.Intent
 import android.health.connect.datatypes.units.Length
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -20,7 +21,7 @@ import com.ncorti.kotlin.template.app.userClass.User
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-
+    lateinit var mediaPlayer: MediaPlayer
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //instantiating firebase instance
@@ -29,8 +30,10 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         val usernameInputField = findViewById<TextInputLayout>(R.id.usernameInputLayout)
         val passwordInputField = findViewById<TextInputLayout>(R.id.passwordInputLayout)
+        mediaPlayer = MediaPlayer.create(this,R.raw.soundeffect)
 
         binding.loginButton.setOnClickListener {
+            mediaPlayer.start()
 
             val email = binding.usernameInputField.text.toString()
             val password = binding.passwordInputField.text.toString()
@@ -96,6 +99,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.signupButton.setOnClickListener {
+            mediaPlayer.start()
             val intent = Intent(this@LoginActivity, SignupActivity::class.java)
             startActivity(intent)
         }

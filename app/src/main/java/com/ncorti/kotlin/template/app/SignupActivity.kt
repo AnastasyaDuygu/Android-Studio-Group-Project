@@ -1,6 +1,7 @@
 package com.ncorti.kotlin.template.app
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +14,7 @@ class SignupActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignupBinding
 
-
+    lateinit var mediaPlayer: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +26,10 @@ class SignupActivity : AppCompatActivity() {
         val emailInputField = findViewById<TextInputLayout>(R.id.emailInputLayout)
         val passwordInputField = findViewById<TextInputLayout>(R.id.passwordInputLayout)
         val reEnterPasswordField = findViewById<TextInputLayout>(R.id.reEnterPasswordInputLayout)
+        mediaPlayer = MediaPlayer.create(this,R.raw.soundeffect)
 
         binding.signupButton.setOnClickListener {
+            mediaPlayer.start()
             val name = binding.nameInputField.text.toString()
             val username = binding.usernameInputField.text.toString()
             val email = binding.emailInputField.text.toString()

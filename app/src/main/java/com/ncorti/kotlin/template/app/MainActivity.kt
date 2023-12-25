@@ -2,6 +2,7 @@ package com.ncorti.kotlin.template.app
 
 import android.annotation.SuppressLint //For Gesture
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.service.autofill.UserData
 import android.util.Log
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity(), BottomFragment.BottomFragmentListener 
     //Gesture STEP 1
     val TAG:String="GESTURE"
     lateinit var gestureDetector: GestureDetector
+    lateinit var mediaPlayer: MediaPlayer
 
     //Fragment STEP 1
     lateinit var bottomFragment: BottomFragment
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity(), BottomFragment.BottomFragmentListener 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        mediaPlayer = MediaPlayer.create(this,R.raw.soundeffect)
         //Fragment STEP 2
         bottomFragment = BottomFragment()
 
@@ -62,7 +65,7 @@ class MainActivity : AppCompatActivity(), BottomFragment.BottomFragmentListener 
 
         binding.gridView.setOnItemClickListener { _, _, position, _ ->
             val dialog = AlertDialog.Builder(this)
-
+            mediaPlayer.start()
 
             val message = when (position) {
                 0 -> "Your current goals are: \nDrink 4L of Water \nEat 150g Protein\nWe go Jim"
@@ -72,6 +75,7 @@ class MainActivity : AppCompatActivity(), BottomFragment.BottomFragmentListener 
                 4 -> "Set or view reminders"
                 5 -> "Progress Reports:\nOct Weight: 64Kg\nNov Weight: 65Kg\nDec Weight: 65Kg"
                 else -> "Unknown Item"
+
             }
 
             dialog.setMessage(message)
@@ -106,6 +110,7 @@ class MainActivity : AppCompatActivity(), BottomFragment.BottomFragmentListener 
         // Navigate to the Habits Layout
         val intent = Intent(this, HabitsActivity::class.java)
         startActivity(intent)
+        mediaPlayer.start()
         //Snackbar.make(binding.root, "works", Snackbar.LENGTH_SHORT).show()
     }
 
