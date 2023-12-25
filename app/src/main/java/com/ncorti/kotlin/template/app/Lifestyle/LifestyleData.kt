@@ -2,6 +2,8 @@ package com.ncorti.kotlin.template.app.Lifestyle
 
 
 class LifestyleData {
+
+    //https://www.jsonkeeper.com/b/BH12 json link
     companion object {
         // Static list of lifestyles
         private val lifestyles = arrayListOf(

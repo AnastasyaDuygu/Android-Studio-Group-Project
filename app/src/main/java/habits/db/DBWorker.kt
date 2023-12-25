@@ -16,10 +16,11 @@ class DBWorker(context: Context, params: WorkerParameters) : CoroutineWorker(con
             // Perform background operations here
             val uid = inputData.getString("uid") ?: ""
             val habitList = fetchDataInBackground(uid)
-
+            Log.d("DBWorker:", "$uid")
             // Update LiveData using a separate mechanism
             HabitSys.updateHabitLiveData(habitList)
             HabitSys.habitList=habitList
+            Log.d("DBListFromWorker:", "$habitList")
 
             return Result.success()
         } catch (e: Exception) {

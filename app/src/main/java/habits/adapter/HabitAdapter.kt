@@ -176,17 +176,10 @@ class HabitAdapter(private val con: Context,  // Add this parameter
             holder.itemView.setOnClickListener{
                 createDetailsDialog()
                 customDialog!!.show()
-                //Snackbar.make(it, "${habit.name}, desc: ${habit.description}", Snackbar.LENGTH_LONG).show()
-                //Snackbar.make(it, "full habit clicked $habit", Snackbar.LENGTH_LONG).show()
+
             }
         }
 
-
-
-
-        /*holder.itemView.setOnClickListener{
-            Snackbar.make(it, "habit outside clicked $habit", Snackbar.LENGTH_LONG).show()
-        }*/
     }
 
     //STEP 2

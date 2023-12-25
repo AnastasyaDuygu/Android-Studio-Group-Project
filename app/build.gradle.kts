@@ -83,6 +83,8 @@ dependencies {
     val worker_version="2.7.1"
     //noinspection UseTomlInstead
     implementation ("androidx.work:work-runtime:$worker_version")
-
-
+    //noinspection UseTomlInstead
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    //noinspection UseTomlInstead
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 }

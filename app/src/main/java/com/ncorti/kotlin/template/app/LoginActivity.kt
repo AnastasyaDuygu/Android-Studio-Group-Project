@@ -1,8 +1,10 @@
 package com.ncorti.kotlin.template.app
 
 import android.content.Intent
+import android.health.connect.datatypes.units.Length
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.FirebaseApp
@@ -79,6 +81,8 @@ class LoginActivity : AppCompatActivity() {
                         }else
                         {
                             Log.e("EXCEPTION", "Sign-in failed", task.exception)
+                            Toast.makeText(this@LoginActivity, "Wrong credentials", Toast.LENGTH_LONG).show()
+
                         }
                     }
                 }
@@ -86,6 +90,7 @@ class LoginActivity : AppCompatActivity() {
             }catch (e: Exception)
             {
                 Log.e("EXCEPTION", "Sign-in failed", e)
+                Toast.makeText(this@LoginActivity, "Wrong credentials", Toast.LENGTH_LONG).show()
 
             }
         }
