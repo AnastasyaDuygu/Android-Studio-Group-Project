@@ -11,15 +11,19 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.habits.HabitsActivity
+import com.google.android.material.snackbar.Snackbar
 import com.ncorti.kotlin.template.app.databinding.ActivityMainBinding
 import com.ncorti.kotlin.template.app.userClass.Constants
 import com.ncorti.kotlin.template.app.userClass.User
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), BottomFragment.BottomFragmentListener {
     //Gesture STEP 1
     val TAG:String="GESTURE"
     lateinit var gestureDetector: GestureDetector
+
+    //Fragment STEP 1
+    lateinit var bottomFragment: BottomFragment
 
     private lateinit var binding: ActivityMainBinding
 
@@ -28,6 +32,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //Fragment STEP 2
+        bottomFragment = BottomFragment()
 
         binding.tvUsernameMain.text=Constants.USERDATA.name
         //Gesture STEP 2
@@ -72,11 +79,11 @@ class MainActivity : AppCompatActivity() {
             dialog.show()
         }
 
-        binding.btnHabits.setOnClickListener {
+        /*binding.btnHabits.setOnClickListener {
             // Navigate to the Habits Layout
             val intent = Intent(this, HabitsActivity::class.java)
             startActivity(intent)
-        }
+        }*/
     }
     //Gesture STEP 4
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -93,6 +100,13 @@ class MainActivity : AppCompatActivity() {
         dialog.setMessage(message)
         dialog.setPositiveButton("OK") { dialogInterface, _ -> dialogInterface.dismiss() }
         dialog.show()
+    }
+    //Fragment STEP 3
+    override fun onButtonClick() {
+        // Navigate to the Habits Layout
+        val intent = Intent(this, HabitsActivity::class.java)
+        startActivity(intent)
+        //Snackbar.make(binding.root, "works", Snackbar.LENGTH_SHORT).show()
     }
 
 }
