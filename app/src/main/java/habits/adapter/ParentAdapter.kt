@@ -1,4 +1,5 @@
 package com.example.habits.adapter
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import com.ncorti.kotlin.template.app.R
 import kotlinx.coroutines.CoroutineScope
 
 
-class ParentAdapter(private val parents: MutableList<Parent>, private val coroutineScope: CoroutineScope)
+class ParentAdapter(private val con: Context, private val parents: MutableList<Parent>, private val coroutineScope: CoroutineScope)
     :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     private val viewPool = RecyclerView.RecycledViewPool()
@@ -34,7 +35,7 @@ class ParentAdapter(private val parents: MutableList<Parent>, private val corout
         holder.tv_category_name.text = parent.categoryTitle
         holder.rv_habit_items.apply {
             layoutManager = LinearLayoutManager(holder.itemView.context, RecyclerView.HORIZONTAL, false)
-            adapter = HabitAdapter(parent.items, parent.categoryTitle, coroutineScope)
+            adapter = HabitAdapter(con,parent.items, parent.categoryTitle, coroutineScope)
         }
 
         holder.itemView.setOnClickListener{

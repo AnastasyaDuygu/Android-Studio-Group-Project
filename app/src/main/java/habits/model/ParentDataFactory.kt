@@ -2,6 +2,7 @@ package com.example.habits.model
 
 
 import HabitSys.Companion.prepareHabits
+import android.content.Context
 import android.util.Log
 import kotlin.math.log
 
@@ -22,11 +23,11 @@ object ParentDataFactory {
 
     }
 
-    suspend fun getParents(uid: String): MutableList<Parent> {
+    suspend fun getParents(context: Context, uid: String): MutableList<Parent> {
         //categories = CategoriesSys.categories
         var initialList: MutableList<Habit> = MutableList(maxSize) { Habit() }
         val parents = mutableListOf<Parent>()
-        val habits : MutableList<Habit> = prepareHabits(uid)
+        val habits : MutableList<Habit> = prepareHabits(context, uid)
         println("Habits: $habits")
         var category: ArrayList<Parent> = ArrayList()
         for (i in 0..<categories.size){

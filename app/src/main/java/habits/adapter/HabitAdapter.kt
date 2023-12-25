@@ -3,6 +3,7 @@ package com.example.habits.adapter
 import HabitSys
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -27,7 +28,8 @@ import com.ncorti.kotlin.template.app.userClass.HelperClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class HabitAdapter(private val habits: MutableList<Habit>, private val category_name: String, private val coroutineScope: CoroutineScope
+class HabitAdapter(private val con: Context,  // Add this parameter
+                   private val habits: MutableList<Habit>, private val category_name: String, private val coroutineScope: CoroutineScope
 )
     :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     lateinit var customDialog: Dialog
@@ -104,7 +106,7 @@ class HabitAdapter(private val habits: MutableList<Habit>, private val category_
                                 newHabitRef.setValue(newHabit)
 
                                 coroutineScope.launch {
-                                    HabitSys.prepareHabits(Constants.UID)
+                                    HabitSys.prepareHabits(con, Constants.UID)
                                 }
                             }
                         }
@@ -151,7 +153,7 @@ class HabitAdapter(private val habits: MutableList<Habit>, private val category_
                 {
                     habit.removeValue()
                     coroutineScope.launch {
-                            HabitSys.prepareHabits(Constants.UID)
+                            HabitSys.prepareHabits(con, Constants.UID)
                     }
                 }
 

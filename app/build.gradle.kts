@@ -78,7 +78,11 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
+    //noinspection UseTomlInstead
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
     val worker_version="2.7.1"
-    implementation (libs.work.runtime)
+    //noinspection UseTomlInstead
+    implementation ("androidx.work:work-runtime:$worker_version")
+
 
 }

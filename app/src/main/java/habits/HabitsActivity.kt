@@ -40,7 +40,6 @@ class HabitsActivity : AppCompatActivity() {
                     lifecycleScope.launch {
                         initRecycler()
                         parentAdapter.notifyDataSetChanged()
-                        Log.d("HERE2", "HERE2",)
                     }
 
                 })
@@ -64,11 +63,11 @@ class HabitsActivity : AppCompatActivity() {
     }
     suspend fun initRecycler() {
         val parents = withContext(Dispatchers.Default) {
-            ParentDataFactory.getParents(Constants.UID)
+            ParentDataFactory.getParents(this@HabitsActivity, Constants.UID)
         }
 
         recyclerView = binding.rvParent
-        parentAdapter = ParentAdapter(parents, lifecycleScope)
+        parentAdapter = ParentAdapter(this, parents, lifecycleScope)
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@HabitsActivity, RecyclerView.VERTICAL, false)
             adapter = parentAdapter
