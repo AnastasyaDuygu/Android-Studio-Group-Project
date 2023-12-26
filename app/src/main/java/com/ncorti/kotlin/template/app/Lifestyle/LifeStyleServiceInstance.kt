@@ -7,7 +7,7 @@ object LifeStyleServiceInstance {
     private const val BASE_URL="https://www.jsonkeeper.com/"
 
     val lifestyleServiceIntance: Retrofit by lazy{  //create one instance
-        Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build()
+        Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build() //parses here
     }
 
     val lifestyleServiceApi: LifeStyleService by lazy{

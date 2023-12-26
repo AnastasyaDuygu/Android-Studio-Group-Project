@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity(), BottomFragment.BottomFragmentListener 
         bottomFragment = BottomFragment()
 
         binding.tvUsernameMain.text=Constants.USERDATA.name
+        binding.lifestyle.text=Constants.USERDATA.email //add lifestyle selected here later
         //Gesture STEP 2
         gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
             override fun onLongPress(e: MotionEvent) {

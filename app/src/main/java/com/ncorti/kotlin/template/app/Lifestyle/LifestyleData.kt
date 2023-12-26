@@ -1,23 +1,42 @@
 package com.ncorti.kotlin.template.app.Lifestyle
 
+import android.util.Log
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
 
 class LifestyleData {
 
     //https://www.jsonkeeper.com/b/BH12 json link
     companion object {
-        // Static list of lifestyles
-        private val lifestyles = arrayListOf(
-            Lifestyle(1, "Active", "Engage in physical activities daily."),
-            Lifestyle(2, "Homebody", "Stay Home, work on your mental health and meditate."),
-            Lifestyle(3, "Social", "Prioritize social interactions.")
-            // Add more lifestyles as needed
-        )
+        var lifestyleList: MutableList<Lifestyle> = mutableListOf()
+        fun getDataFromTheServer(lifestylesAdapter: LifestylesAdapter) {
+            val call: Call<MutableList<Lifestyle>> =
+                LifeStyleServiceInstance.lifestyleServiceApi.getAllLifeStyles() //single instance
+            call.enqueue(object : Callback<MutableList<Lifestyle>> {
+                override fun onResponse(
+                    call: Call<MutableList<Lifestyle>>,
+                    response: Response<MutableList<Lifestyle>>
+                ) {
+                    if (response.isSuccessful) {
+                        val lifestyleData = response.body()
+                        Log.d("LifestyleData", "$lifestyleData")
+                        lifestyleList= lifestyleData!!
+                        lifestylesAdapter.setData(lifestyleList)
+                    } else {
+                        Log.d("Error", "${response.errorBody()}")
 
-        // Function to get the list of lifestyles
-        fun getList(): ArrayList<Lifestyle> {
-            return lifestyles
+                    }
+
+                }
+
+                override fun onFailure(call: Call<MutableList<Lifestyle>>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+
         }
-
-
     }
 }

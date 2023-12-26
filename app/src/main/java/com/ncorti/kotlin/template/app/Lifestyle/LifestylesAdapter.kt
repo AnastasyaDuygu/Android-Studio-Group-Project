@@ -1,5 +1,6 @@
 package com.ncorti.kotlin.template.app.Lifestyle
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,15 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.ncorti.kotlin.template.app.R
 
-class LifestylesAdapter(private val context: Context, private val recyclerItemValues: ArrayList<Lifestyle>)
+class LifestylesAdapter(private val context: Context)
     : RecyclerView.Adapter<LifestylesAdapter.LifestylesRecyclerViewItemHolder>() {
+
+    private var recyclerItemValues: MutableList<Lifestyle> = mutableListOf()
+    @SuppressLint("NotifyDataSetChanged")
+    fun setData(items:MutableList<Lifestyle>){
+        recyclerItemValues = items
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): LifestylesRecyclerViewItemHolder {
         val inflater = LayoutInflater.from(context)
@@ -25,7 +33,7 @@ class LifestylesAdapter(private val context: Context, private val recyclerItemVa
         val currentItem = recyclerItemValues[position]
         holder.tvItemLifestyleName.text = currentItem.name
         // Set the image for the ImageView (you might want to change this depending on where your images come from)
-        holder.imageViewLifestyle.setImageResource(R.drawable.dumbbell) // Replace with actual image resource or loading mechanism
+        holder.imageViewLifestyle.setImageResource(R.drawable.lifestyle_icon) // Replace with actual image resource or loading mechanism
 
         // Set a click listener for the entire item view
         holder.itemLayout.setOnClickListener {
