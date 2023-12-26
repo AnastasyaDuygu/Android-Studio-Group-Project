@@ -38,8 +38,7 @@ class MainActivity : AppCompatActivity(), BottomFragment.BottomFragmentListener 
         mediaPlayer = MediaPlayer.create(this,R.raw.soundeffect)
         //Fragment STEP 2
         bottomFragment = BottomFragment()
-
-        binding.tvUsernameMain.text=Constants.USERDATA.name
+        binding.tvUsernameMain.text= Constants.USERDATA.name
         binding.lifestyle.text=Constants.USERDATA.email //add lifestyle selected here later
         //Gesture STEP 2
         gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
@@ -47,7 +46,6 @@ class MainActivity : AppCompatActivity(), BottomFragment.BottomFragmentListener 
                 super.onLongPress(e)
                 Log.i(TAG, "onLongPress")
                 displayUserDetails()
-                Toast.makeText(this@MainActivity, "deneme", Toast.LENGTH_SHORT).show()
             }
         })
         //Gesture STEP 3
