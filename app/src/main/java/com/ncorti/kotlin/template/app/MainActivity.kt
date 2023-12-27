@@ -13,8 +13,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.habits.HabitsActivity
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.ncorti.kotlin.template.app.Lifestyle.Lifestyle
 import com.ncorti.kotlin.template.app.databinding.ActivityMainBinding
 import com.ncorti.kotlin.template.app.userClass.Constants
+import com.ncorti.kotlin.template.app.userClass.HelperClass
 import com.ncorti.kotlin.template.app.userClass.User
 
 
@@ -23,7 +28,7 @@ class MainActivity : AppCompatActivity(), BottomFragment.BottomFragmentListener 
     val TAG:String="GESTURE"
     lateinit var gestureDetector: GestureDetector
     lateinit var mediaPlayer: MediaPlayer
-
+    var lifestyle: Lifestyle = Lifestyle()
     //Fragment STEP 1
     lateinit var bottomFragment: BottomFragment
 
@@ -39,7 +44,26 @@ class MainActivity : AppCompatActivity(), BottomFragment.BottomFragmentListener 
         //Fragment STEP 2
         bottomFragment = BottomFragment()
         binding.tvUsernameMain.text= Constants.USERDATA.name
-        binding.lifestyle.text=Constants.USERDATA.email //add lifestyle selected here later
+
+        val lifestyleNode = HelperClass.getDatabaseInstance().getReference("lifestyle").child(Constants.UID) //getting lifestyle Node
+        lifestyleNode.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val lfObject = snapshot.getValue(Lifestyle::class.java)
+                    Log.d("Lifestyle:", "${lfObject.toString()}")
+                    if (lfObject != null) {
+                        lifestyle=lfObject
+                    }
+                } else {
+                    Toast.makeText(this@MainActivity, "Lifestyle wasn't selected!", Toast.LENGTH_LONG).show();
+                }
+                binding.lifestyle.text = lifestyle.name
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("DataRetrieval", "Error retrieving data: ${error.message}")
+            }
+        })
         //Gesture STEP 2
         gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
             override fun onLongPress(e: MotionEvent) {

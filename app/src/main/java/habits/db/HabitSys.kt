@@ -23,9 +23,7 @@ class HabitSys {
             val inputData = Data.Builder().putString("uid", uid).build()
             val workRequestForDB = OneTimeWorkRequestBuilder<DBWorker>().setInputData(inputData).build()
 
-
             WorkManager.getInstance(context).enqueue(workRequestForDB)
-
             return habitList!!
         }
 

@@ -5,7 +5,7 @@
     android:id="@+id/constBottomFragmentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#7EDFBD"
+    android:background="#CAA1F3"
     tools:context=".BottomFragment">
 
     <Button
